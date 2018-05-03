@@ -116,3 +116,14 @@ class Connection extends Thread {
     // Returns string of Connection's internet address
     public String getInetAddress() { return client.getInetAddress().toString(); }
 }
+
+// public class board{
+//     char[][] multi = new char[10][10];
+
+//     bArrayList(String origin, String layout){
+//         int rowNum;
+//         int columNum;
+
+//         rowNum = Integer.parseInt(s)
+//     }
+// }
