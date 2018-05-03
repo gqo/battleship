@@ -8,7 +8,6 @@ public class Battleship {
 
     public static char[][] board=new char[10][10];
             
-            
     public static void printBoard(){
     
         System.out.print("  ");//beginning 2 spaces
@@ -37,6 +36,7 @@ public class Battleship {
 
     static int port = 5190;
     public static void main(String[] args) {
+        initBoard();
         ServerSocket server = null;
         int uid = 0; // User ID
         try {
@@ -63,6 +63,19 @@ public class Battleship {
         } catch (IOException ex) {
             System.out.println("Error occured in socket creation.");
         }
+    }
+
+    public static void initBoard() {
+        for(int i = 0; i < 10; i++) {
+            for(int j = 0; j < 10; j++) {
+                board[i][j] = '-';
+            }
+        }
+
+        board[0][0] = '1';
+        board[0][1] = '1';
+        board[1][0] = '2';
+        board[1][1] = '2';
     }
 }
 
@@ -103,6 +116,18 @@ class Connection extends Thread {
             }
             // Prints to server when user disconnects
             System.out.println("User "+uid+" @ "+client.getInetAddress().toString()+" disconnected.");
+            if(uid == 1) {
+                message = "Player 1 quit. Player 2 wins!";
+                this.send(message);
+                connections.get(1).send(message);
+                connections.get(1).client.close();
+            }
+            else {
+                message = "Player 2 quit. Player 1 wins!";
+                this.send(message);
+                connections.get(0).send(message);
+                connections.get(0).client.close();
+            }
             sin.close();
             client.close();
         } catch (IOException ex) {
