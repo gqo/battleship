@@ -118,14 +118,31 @@ class Connection extends Thread {
 }
 
  public class board{
-     char[][] multi = new char[10][10];
-     lengthOfShip = 4;
+     public String[][] multi = new String[10][10];
+     int lengthOfShip = 4;
 
-     bArrayList(String origin, String layout){
-         multi[3][5] = "o";
-         multi[3][6] = "o";
-         multi[3][7] = "o";
-         multi[3][8] = "o";
+     void setArrayBoard(){
+
+        for (int i = 0; i < 10; i++){
+            for (int j = 0; j < 10; j++){
+                multi[i][j] = "-";
+            }
+        }
+         multi[3][5] = "1";
+         multi[3][6] = "1";
+         multi[3][7] = "1";
+         multi[3][8] = "1";
          
      }
+
+    //  boolean checkForHit(String coord){
+    //     int row = Interger.parseInt(coord.charAt(0));
+    //     int columnAscii = (int) coord.charAt(1);
+    //     int column = columnAscii - 64;
+
+    //     if (multi[row-1][column -1 ] == "2"){
+            
+    //     }
+        
+    //  }
  }
