@@ -13,17 +13,23 @@ public class Battleship {
         try {
             server = new ServerSocket(port);
             // Handles only n-set connections, consider HashMap?
-            ArrayList<Connection> connections = new ArrayList<Connection>(20);
+            ArrayList<Connection> connections = new ArrayList<Connection>(2);
             Connection conn = null;
             while(true) {
                 System.out.println("Waiting for a connection on port: "+port);
                 Socket client = server.accept();
-                // Prints user, uid, and user's internet address to server
-                System.out.println("User "+(++uid)+" @ "
-                    +client.getInetAddress().toString()+" connected.");
-                conn = new Connection(client,uid,connections);
-                connections.add(conn);
-                conn.start();
+                if(connections.size() != 2) {
+                    // Prints user, uid, and user's internet address to server
+                    System.out.println("Player "+(++uid)+" @ "
+                        +client.getInetAddress().toString()+" connected.");
+                    conn = new Connection(client,uid,connections);
+                    connections.add(conn);
+                    conn.start();
+                }
+                else {
+                    System.out.println("Denyed additional connection to server.");
+                    client.close();
+                }
             }
         } catch (IOException ex) {
             System.out.println("Error occured in socket creation.");
@@ -55,25 +61,16 @@ class Connection extends Thread {
             Scanner sin = new Scanner(client.getInputStream());
             String line = "";
             String message = "";
-            boolean set_name = false;
 
             while(!line.equals("/quit")) { // User can quit by sending "/quit" on the server
                 line = sin.nextLine();
-                if(!set_name) { 
-                    u_name = line;
-                    set_name = true;
-                    // Prints user's set username to server
-                    System.out.println("User "+uid+" set name to: "+line);
+                message = "Player"+uid+" said: "+line;
+                this.send(message); // Send message to user sending message
+                for(int i = 0; i < connections.size(); i++) { // Sends message to all users
+                    if(i != uid-1) { connections.get(i).send(message); }
                 }
-                else {
-                    message =  u_name+": "+line;
-                    this.send(message); // Send message to user sending message
-                    for(int i = 0; i < connections.size(); i++) { // Sends message to all users
-                        if(i != uid-1) { connections.get(i).send(message); }
-                    }
-                    // Prints user sent messages to server
-                    System.out.println("User "+uid+" ("+u_name+")"+" said: "+line);
-                }
+                // Prints user sent messages to server
+                System.out.println("Player "+uid+" said: "+line);
             }
             // Prints to server when user disconnects
             System.out.println("User "+uid+" @ "+client.getInetAddress().toString()+" disconnected.");
