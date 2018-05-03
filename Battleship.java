@@ -36,6 +36,7 @@ public class Battleship {
 
     static int port = 5190;
     public static void main(String[] args) {
+        initBoard();
         ServerSocket server = null;
         int uid = 0; // User ID
         try {
@@ -62,6 +63,19 @@ public class Battleship {
         } catch (IOException ex) {
             System.out.println("Error occured in socket creation.");
         }
+    }
+
+    public static void initBoard() {
+        for(int i = 0; i < 10; i++) {
+            for(int j = 0; j < 10; j++) {
+                board[i][j] = '-';
+            }
+        }
+
+        board[0][0] = '1';
+        board[0][1] = '1';
+        board[1][0] = '2';
+        board[1][1] = '2';
     }
 }
 
@@ -128,15 +142,15 @@ class Connection extends Thread {
     public String getInetAddress() { return client.getInetAddress().toString(); }
 }
 
- public class board{
-     char[][] multi = new char[10][10];
-     lengthOfShip = 4;
+//  public class board{
+//      char[][] multi = new char[10][10];
+//      lengthOfShip = 4;
 
-     bArrayList(String origin, String layout){
-         multi[3][5] = "o";
-         multi[3][6] = "o";
-         multi[3][7] = "o";
-         multi[3][8] = "o";
+//      bArrayList(String origin, String layout){
+//          multi[3][5] = "o";
+//          multi[3][6] = "o";
+//          multi[3][7] = "o";
+//          multi[3][8] = "o";
          
-     }
- }
+//      }
+//  }
