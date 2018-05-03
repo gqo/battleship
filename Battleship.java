@@ -88,13 +88,15 @@ class Connection extends Thread {
     public String getInetAddress() { return client.getInetAddress().toString(); }
 }
 
-// public class board{
-//     char[][] multi = new char[10][10];
+ public class board{
+     char[][] multi = new char[10][10];
+     lengthOfShip = 4;
 
-//     bArrayList(String origin, String layout){
-//         int rowNum;
-//         int columNum;
-
-//         rowNum = Integer.parseInt(s)
-//     }
-// }
+     bArrayList(String origin, String layout){
+         multi[3][5] = "o";
+         multi[3][6] = "o";
+         multi[3][7] = "o";
+         multi[3][8] = "o";
+         
+     }
+ }
