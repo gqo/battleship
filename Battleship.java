@@ -8,7 +8,6 @@ public class Battleship {
 
     public static char[][] board=new char[10][10];
             
-            
     public static void printBoard(){
     
         System.out.print("  ");//beginning 2 spaces
@@ -103,6 +102,18 @@ class Connection extends Thread {
             }
             // Prints to server when user disconnects
             System.out.println("User "+uid+" @ "+client.getInetAddress().toString()+" disconnected.");
+            if(uid == 1) {
+                message = "Player 1 quit. Player 2 wins!";
+                this.send(message);
+                connections.get(1).send(message);
+                connections.get(1).client.close();
+            }
+            else {
+                message = "Player 2 quit. Player 1 wins!";
+                this.send(message);
+                connections.get(0).send(message);
+                connections.get(0).client.close();
+            }
             sin.close();
             client.close();
         } catch (IOException ex) {
